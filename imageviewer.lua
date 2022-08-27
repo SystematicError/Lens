@@ -1,5 +1,7 @@
 #!/usr/bin/env luajit
 
+-- TODO: Migrate to gtk4
+
 local lgi = require "lgi"
 local Gtk = lgi.require("Gtk", "3.0")
 local Gdk = lgi.require("Gdk", "3.0")
@@ -49,7 +51,6 @@ function app:on_activate()
         }
     }
 
-
     -- TODO: Scale image and add gestures
     local image = Gtk.Image {visible = true}
 
@@ -60,8 +61,10 @@ function app:on_activate()
         if command == "file" then
             header.subtitle = arg[2] or nil
             image:set_from_file(arg[2] or nil)
+
         elseif command == "clipboard" then
             header.subtitle = "Clipboard"
+
             Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD):request_image(function(_, copied)
                 image:set_from_pixbuf(copied)
             end)
