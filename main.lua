@@ -4,7 +4,7 @@ local lgi = require "lgi"
 local Gtk = lgi.require("Gtk", "4.0")
 local Gdk = lgi.require("Gdk", "4.0")
 
-local app = Gtk.Application {application_id = "com.github.systematicerror.minitools.lens"}
+local app = Gtk.Application {application_id = "com.github.systematicerror.lens"}
 
 function app:on_activate()
     local main_window = Gtk.ApplicationWindow {application = self}
@@ -69,15 +69,14 @@ function app:on_activate()
     end
 
     if arg[1] then
-        load_image()
+        load_image(arg[1])
 
     -- TODO: Make clipboard reading actually work
-    -- Using true as a debug statement
+    -- Using false as a debug statement
     elseif true then
-        Gdk.Display():get_clipboard():read_texture_async(function(clip, task)
-            subtitle.label = "Clipboard"
-            greeter.visible = false
-        end)
+        print(Gdk.Display():get_clipboard():get_content())
+        subtitle.label = "Clipboard"
+        greeter.visible = false
     end
 
     function open:on_clicked()
